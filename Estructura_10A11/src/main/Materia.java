@@ -21,6 +21,7 @@ public class Materia {
         this.nunid = 6;
         this.u=new Unidad[nunid];
         this.calif=100;
+        crearUnidades();
     }//Constructor por default
 
     public Materia(String clave, String n, int creditos, int nunid, int calif) {
@@ -83,6 +84,18 @@ public class Materia {
         }
         calif=sum/u.length;
         return calif;
+    }
+    
+    public Unidad[] getU(){
+        
+        return u;
+    }
+    
+    public void crearUnidades(){
+        u=new Unidad[nunid];
+        for(int i=0;i<=u.length;i++){
+            u[i]=new Unidad(i, "Tema "+i,100);
+        }
     }
     
     

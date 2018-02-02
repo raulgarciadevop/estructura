@@ -5,8 +5,6 @@
  */
 package main;
 
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -28,12 +26,12 @@ public class Ventana extends javax.swing.JFrame {
         this.prom=0;
         txtCalificacion.setEnabled(false);
         dtm=(DefaultTableModel)jTable.getModel();
-        
+        setDefaults();
         dtm.addTableModelListener(new TableModelListener(){
             @Override
             public void tableChanged(TableModelEvent e) {
                 if(e.getColumn()==2){
-                    //txtTestState.setText("Changed - "+e.);
+                    txtTestState.setText("Changed - ");
                     
                 }
                 
@@ -43,6 +41,31 @@ public class Ventana extends javax.swing.JFrame {
             
         });
         
+    }
+    
+    private void setDefaults(){
+        dtm.setRowCount(m.getNunid());
+        
+        for(Unidad unid:m.getU()){
+            dtm.setValueAt(unid.getCalif(), unid.hashCode(), 2);
+        }
+        
+        /*
+        
+        int[] califU=m.getUCalif();
+        
+        for(int und=0;und<=m.getUCalif().length;und++){
+            //Value - Row - Column
+            dtm.setValueAt(califU[und], und, 2);
+        }
+        */
+        
+        
+        
+        txtNombre.setText(m.getNombre());
+        txtClave.setText(m.getClave());
+        txtUnidades.setText(String.valueOf(m.getNunid()));
+        txtCalificacion.setText(String.valueOf(m.getCalif()));
     }
     
     
