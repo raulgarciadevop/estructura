@@ -19,6 +19,7 @@ public class Materia {
         nombre = "Estructura de datos";
         this.creditos = 5;
         this.nunid = 6;
+        this.u=new Unidad[nunid];
         this.calif=100;
     }//Constructor por default
 
@@ -27,6 +28,7 @@ public class Materia {
         nombre = n;
         this.creditos = creditos;
         this.nunid = nunid;
+        this.u=new Unidad[nunid];
         this.calif=calif;
     }//Constructor
 
@@ -72,6 +74,15 @@ public class Materia {
     
     public void leer(String nombre, int calif, int unid){
         u=new Unidad[unid];
+    }
+    
+    public int prom(){
+        int sum=0;
+        for(Unidad un:u){
+            sum+=un.getCalif();
+        }
+        calif=sum/u.length;
+        return calif;
     }
     
     
