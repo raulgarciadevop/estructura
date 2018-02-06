@@ -63,6 +63,8 @@ public class Materia {
 
     public void setNunid(int nunid) {
         this.nunid = nunid;
+        this.u=new Unidad[nunid];
+        crearUnidades();
     }
 
     public int getCalif() {
@@ -86,15 +88,34 @@ public class Materia {
         return calif;
     }
     
-    public Unidad[] getU(){
+    public int[] getU(){
+        int[] uC;
+        uC=new int[u.length];
+        
+        for(int i=0;i<uC.length;i++){
+            uC[i]=u[i].getCalif();
+        }
+        
+        return uC;
+    }
+    
+    public Unidad[] getU(int ii){
         
         return u;
     }
+
+    public void setU(Unidad[] u) {
+        this.u = u;
+    }
     
-    public void crearUnidades(){
-        u=new Unidad[nunid];
-        for(int i=0;i<=u.length;i++){
-            u[i]=new Unidad(i, "Tema "+i,100);
+    public void setUCalif(int Num, String tema, int calif){
+        
+    }
+    
+    
+    private void crearUnidades(){
+        for(int i=0;i<u.length;i++){
+            u[i]=new Unidad(i, "Tema "+(i+1),100);
         }
     }
     

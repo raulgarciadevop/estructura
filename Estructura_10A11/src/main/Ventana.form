@@ -175,6 +175,9 @@
         <Component class="javax.swing.JTextField" name="txtNombre">
         </Component>
         <Component class="javax.swing.JTextField" name="txtUnidades">
+          <Events>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="txtUnidadesPropertyChange"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -196,12 +199,7 @@
                   <Table columnCount="3" rowCount="4">
                     <Column editable="false" title="No. Unidad" type="java.lang.Object"/>
                     <Column editable="true" title="Nombre" type="java.lang.Object"/>
-                    <Column editable="true" title="Calificacion" type="java.lang.Object">
-                      <Data value="333"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
+                    <Column editable="true" title="Calificacion" type="java.lang.Integer"/>
                   </Table>
                 </Property>
               </Properties>

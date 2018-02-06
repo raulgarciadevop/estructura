@@ -5,6 +5,9 @@
  */
 package main;
 
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -16,56 +19,140 @@ import javax.swing.table.DefaultTableModel;
 public class Ventana extends javax.swing.JFrame {
     int prom;
     Materia m;
+    Unidad[] uniD;
 
     /**
      * Creates new form Ventana
      */
     public Ventana() {
         initComponents();
+        txtTestState.setVisible(false);
         m=new Materia();
         this.prom=0;
         txtCalificacion.setEnabled(false);
         dtm=(DefaultTableModel)jTable.getModel();
+        
         setDefaults();
         dtm.addTableModelListener(new TableModelListener(){
             @Override
             public void tableChanged(TableModelEvent e) {
-                if(e.getColumn()==2){
-                    txtTestState.setText("Changed - ");
-                    
-                }
                 
+                switch(e.getType()){
+                    case TableModelEvent.DELETE:
+                        if (e.getColumn() == 2) {
+                            //txtTestState.setText("Changed - ");
+                            try {
+                                refreshTable();
+                                updObj();
+                                txtCalificacion.setText(String.valueOf(m.prom()));
+                            } catch (NumberFormatException es) {
+                                JOptionPane.showMessageDialog(null, "Error: Ingrese solo valores numericos en este campo.");
+
+                            }
+                        }
+                        break;
+                        
+                    case TableModelEvent.INSERT:
+                        //Error null point aqui updObj();
+                        txtCalificacion.setText(String.valueOf(m.prom()));
+                        break;
+                        
+                    case TableModelEvent.UPDATE:
+                        //refreshTable();
+                        updObj();
+                        txtCalificacion.setText(String.valueOf(m.prom()));
+                        break;
+                }
+            }  
+        });
+        
+        txtUnidades.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                upd();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                upd();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+                upd();
             }
             
-            
-            
+            public void upd(){
+                if(!txtUnidades.getText().isEmpty()){
+                    if(Integer.parseInt(txtUnidades.getText())>0 && !txtUnidades.getText().equals("0")){
+                        m.setNunid(Integer.parseInt(txtUnidades.getText()));
+                        refreshTable();
+                        //updObj();
+                        
+                        txtTestState.setVisible(true);
+                    }else{
+                        //txtUnidades.setText(String.valueOf(m.getNunid()));
+                    }
+                }
+            }
+
+        
         });
+        
+        
+        
         
     }
     
     private void setDefaults(){
         dtm.setRowCount(m.getNunid());
         
-        for(Unidad unid:m.getU()){
-            dtm.setValueAt(unid.getCalif(), unid.hashCode(), 2);
+        uniD=m.getU(1);
+        
+        for(int i=0;i<uniD.length;i++){
+            dtm.setValueAt(i+1, i, 0);
+            dtm.setValueAt(uniD[i].getTema(), i, 1);
+            dtm.setValueAt(uniD[i].getCalif(), i, 2);
         }
-        
-        /*
-        
-        int[] califU=m.getUCalif();
-        
-        for(int und=0;und<=m.getUCalif().length;und++){
-            //Value - Row - Column
-            dtm.setValueAt(califU[und], und, 2);
-        }
-        */
-        
-        
         
         txtNombre.setText(m.getNombre());
         txtClave.setText(m.getClave());
         txtUnidades.setText(String.valueOf(m.getNunid()));
         txtCalificacion.setText(String.valueOf(m.getCalif()));
+    }
+    
+    private void refreshTable(){
+        dtm.setRowCount(m.getNunid());
+        
+        uniD=m.getU(1);
+        
+        for(int i=0;i<uniD.length;i++){
+            dtm.setValueAt(i+1, i, 0);
+            dtm.setValueAt(uniD[i].getTema(), i, 1);
+            dtm.setValueAt(uniD[i].getCalif(), i, 2);
+        }
+        
+        txtNombre.setText(m.getNombre());
+        txtClave.setText(m.getClave());
+        //txtUnidades.setText(String.valueOf(m.getNunid()));
+        txtCalificacion.setText(String.valueOf(m.getCalif()));
+    }
+    
+    private void updObj(){
+        
+        
+        for(int i=0;i<uniD.length;i++){
+            //dtm.setValueAt(uniD[i], i, 2);
+            //uniD[i].setCalif(Integer.valueOf((String) dtm.getValueAt(i, 2)));
+            int n=Integer.parseInt(dtm.getValueAt(i, 2).toString());
+            uniD[i].setCalif(n);
+            uniD[i].setTema((String) dtm.getValueAt(i, 1));
+            
+        }
+        
     }
     
     
@@ -144,11 +231,17 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel6.setText("No. Unidades:");
 
+        txtUnidades.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtUnidadesPropertyChange(evt);
+            }
+        });
+
         jLabel7.setText("Calificacion:");
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, "333"},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null}
@@ -157,9 +250,16 @@ public class Ventana extends javax.swing.JFrame {
                 "No. Unidad", "Nombre", "Calificacion"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, true, true
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -276,6 +376,10 @@ public class Ventana extends javax.swing.JFrame {
         // Salir
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtUnidadesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtUnidadesPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUnidadesPropertyChange
 
     /**
      * @param args the command line arguments
