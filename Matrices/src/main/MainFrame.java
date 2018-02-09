@@ -7,8 +7,6 @@ package main;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import operations.Multiplicador;
 
@@ -217,9 +215,9 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtR, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                            .addComponent(txtC)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtC, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtR, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -340,11 +338,29 @@ public class MainFrame extends javax.swing.JFrame {
         a=new int[dtm1.getColumnCount()][dtm1.getRowCount()];
         b=new int[dtm1.getColumnCount()][dtm1.getRowCount()];
         
+        //Obtener arreglos A y B
         for(int i=0;i<a[0].length;i++){
+            
             for(int j=0;i<a.length;i++){
+                
+                for(int k=0;i<b[0].length;k++){
+                    a[i][j]=Integer.parseInt(dtm1.getValueAt(i, j).toString());
+                    b[i][j]=Integer.parseInt(dtm2.getValueAt(i, j).toString());
+                }
                 //otro for
-                a[i][j]=(int) dtm1.getValueAt(i, j);
-                b[i][j]=(int) dtm2.getValueAt(i, j);
+                
+            }
+        }
+        
+        //Rellenar C
+        for(int i=0;i<a[0].length;i++){
+            
+            for(int j=0;i<a.length;i++){
+                
+                for(int k=0;i<b[0].length;k++){
+                    dtm3.setValueAt(m.multiplicar(a, b), i, k);
+                }
+                
             }
         }
         
