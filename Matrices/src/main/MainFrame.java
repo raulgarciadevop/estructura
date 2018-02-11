@@ -5,6 +5,7 @@
  */
 package main;
 
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -47,12 +48,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
             
             public void doIt(){
-                if(!txtR.getText().isEmpty() && Integer.parseInt(txtR.getText())>0){
+                if(!txtR.getText().isEmpty() && Integer.parseInt(txtR.getText())>0 && txtR.getText().equals(txtC.getText())){
                     //Asignar
                     
                     
                     dtm1.setColumnCount(Integer.parseInt(txtC.getText()));
                     dtm1.setRowCount(Integer.parseInt(txtR.getText()));
+                    
                     
                     dtm2.setColumnCount(Integer.parseInt(txtC.getText()));
                     dtm2.setRowCount(Integer.parseInt(txtR.getText()));
@@ -334,33 +336,45 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Multiplicar
-        int[][] a,b;
+        int[][] a,b,c;
+        int nfA,ncA,nfB,ncB;
+        
+        
         a=new int[dtm1.getColumnCount()][dtm1.getRowCount()];
         b=new int[dtm1.getColumnCount()][dtm1.getRowCount()];
         
+        nfA=a.length;
+        ncA=a[0].length;
+        nfB=b.length;
+        ncB=b[0].length;
+        
         //Obtener arreglos A y B
-        for(int i=0;i<a[0].length;i++){
-            
-            for(int j=0;i<a.length;i++){
-                
-                for(int k=0;i<b[0].length;k++){
-                    a[i][j]=Integer.parseInt(dtm1.getValueAt(i, j).toString());
-                    b[i][j]=Integer.parseInt(dtm2.getValueAt(i, j).toString());
+        
+        int fil,col,i;
+        for(fil=0 ; fil<nfA ; fil++)
+        {
+            for(col=0 ; col<ncB ; col++)
+            {
+                for(i=0 ; i<nfA ; i++)
+                {
+                    //c[fil][col]+= a[fil][i] * b[i][col];
+                    a[fil][i]=Integer.parseInt(dtm1.getValueAt(fil, col).toString());
+                    b[i][col]=Integer.parseInt(dtm2.getValueAt(fil, col).toString());
                 }
-                //otro for
-                
             }
         }
         
-        //Rellenar C
-        for(int i=0;i<a[0].length;i++){
-            
-            for(int j=0;i<a.length;i++){
-                
-                for(int k=0;i<b[0].length;k++){
-                    dtm3.setValueAt(m.multiplicar(a, b), i, k);
-                }
-                
+        c=m.multiplicar(a, b);
+        
+        
+        
+        //showMessageDialog(null, "RC:"+a[0].length+" - "+b[0].length+" RR:"+a.length+" - "+b.length+" -- "+m.multiplicar(a, b).length);
+        
+        for(fil=0 ; fil<nfA ; fil++)
+        {
+            for(col=0 ; col<ncB ; col++)
+            {
+                    dtm3.setValueAt(m.multiplicar(a, b)[fil][col], fil, col);
             }
         }
         
