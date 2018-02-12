@@ -20,25 +20,22 @@ public class Fibonacci {
     
     int fib(int n){
         //Iniciar
-        if(n==1 || n==2)return 1;
+        if(n<=1)return n;
         else return fib(n-1)+fib(n-2);
         //Terminar
     }
     
     int fibo(int n){
         //Iniciar
-        int a=0,b=0,c=0;
-        
-        if(n==1) return 0;
-        if(n==2) return 1;
-        
-        for(int i=3;i<=n;i++){
-            c=a+b;
-            a=b;
-            b=c;
+        if(n<=1) return n;
+        int fibo=1;
+        int fiboPrev=1;
+        for(int i=2;i<n;i++){
+            int temp=fibo;
+            fibo+=fiboPrev;
+            fiboPrev=temp;
         }
-        
-        return c;
+        return fibo;
         //Terminar
     }
     
@@ -90,17 +87,56 @@ public class Fibonacci {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int[][] a={{2,3},{4,5}};
-        int[][] b={{1},{2}};
         Fibonacci fib=new Fibonacci();
-        int n=35;
+        int n=4;
         
-        showMessageDialog(null, "No recursiva");
-        showMessageDialog(null, "Res: "+fib.fibo(n));
+        long ti1,ti2,tf1,tf2;
+        int res1,res2;
+        String res;
         
-        showMessageDialog(null, "Recursiva");
-        showMessageDialog(null, "Res: "+fib.fib(n));
-        System.exit(0);
+        
+        
+        //No recursiva
+        ti1=System.nanoTime();
+        res1=fib.fibo(n);
+        tf1=System.nanoTime();
+        
+        //Recursiva
+        ti2=System.nanoTime();
+        res2=fib.fib(n);
+        tf2=System.nanoTime();
+        
+        res="No recursiva:\n"
+          + "Resultado: "+res1+"\n"
+          + "Tiempo (Milisegundos): "+(tf1-ti1)+"\n"
+          + "\n"
+          + "Recursiva:\n"
+          + "Resultado: "+res2+"\n"
+          + "Tiempo (Milisegundos): "+(tf2-ti2);
+        
+        showMessageDialog(null, res);
+        
+        String rateA="",rateB="";
+        for(int i=0;i<=35;i++){
+            //No recursiva
+        ti1=System.nanoTime();
+        res1=fib.fibo(i);
+        tf1=System.nanoTime();
+        rateA+=i+" - "+(tf1-ti1)+"\n";
+        
+        //Recursiva
+        ti2=System.nanoTime();
+        res2=fib.fib(i);
+        tf2=System.nanoTime();
+        rateB+=i+" - "+(tf2-ti2)+"\n";
+        
+        }
+        
+        System.out.println("Tabla A:\n"+rateA);
+        System.out.println("Tabla B:\n"+rateB);
+        
+        showMessageDialog(null, "Tabla A:\n"+rateA);
+        showMessageDialog(null, "Tabla B:\n"+rateB);
         
         /*
         Tarea:
@@ -108,22 +144,6 @@ public class Fibonacci {
         - Obtener eta.
         - Graficar el eta. (Estimated time elapsed)
         */
-        
-        
-        
-        //int[][] c=fib.multiplica(a, b);
-        
-        //Arrays.deepToString(c);
-        
-        
-        /*
-        int aux=A[i];
-        A[i]=A[i+1];
-        A[i-1]=A[i];
-        */
-        
-        
-        
         
     }
     
