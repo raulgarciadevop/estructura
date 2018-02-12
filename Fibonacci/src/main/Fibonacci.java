@@ -6,6 +6,7 @@
 package main;
 
 import java.util.Arrays;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -17,9 +18,36 @@ public class Fibonacci {
         
     }
     
+    int fib(int n){
+        //Iniciar
+        if(n==1 || n==2)return 1;
+        else return fib(n-1)+fib(n-2);
+        //Terminar
+    }
+    
+    int fibo(int n){
+        //Iniciar
+        int a=0,b=0,c=0;
+        
+        if(n==1) return 0;
+        if(n==2) return 1;
+        
+        for(int i=3;i<=n;i++){
+            c=a+b;
+            a=b;
+            b=c;
+        }
+        
+        return c;
+        //Terminar
+    }
+    
+    /*
     String fib(int n){
         String f="";
         int a=0,b=0,c=0;
+        
+        if(n==1) return 0;
         
         for(int i=2;i<=n;i++){
             c=a+b;
@@ -29,6 +57,10 @@ public class Fibonacci {
         
         return f;
     }
+    */
+    
+    
+    
     
     public void algoritm(int n){
         int[] arr=new int[n];
@@ -61,10 +93,27 @@ public class Fibonacci {
         int[][] a={{2,3},{4,5}};
         int[][] b={{1},{2}};
         Fibonacci fib=new Fibonacci();
+        int n=35;
         
-        int[][] c=fib.multiplica(a, b);
+        showMessageDialog(null, "No recursiva");
+        showMessageDialog(null, "Res: "+fib.fibo(n));
         
-        Arrays.deepToString(c);
+        showMessageDialog(null, "Recursiva");
+        showMessageDialog(null, "Res: "+fib.fib(n));
+        System.exit(0);
+        
+        /*
+        Tarea:
+        
+        - Obtener eta.
+        - Graficar el eta. (Estimated time elapsed)
+        */
+        
+        
+        
+        //int[][] c=fib.multiplica(a, b);
+        
+        //Arrays.deepToString(c);
         
         
         /*
