@@ -36,8 +36,11 @@ public class DivisionRestaSuc {
     //Recursiva
     public int drcR(int n, int d){
         if(n<d)return 0;
+        res=n;
         return drcR(n-d,d)+1;
     }
+    
+    
 
     public void setRes(int res) {
         this.res = res;
@@ -67,7 +70,7 @@ public class DivisionRestaSuc {
     public static void main(String[] args){
         DivisionRestaSuc drs=new DivisionRestaSuc();
         drs.setDivisor(3);
-        drs.setDividendo(10);
+        drs.setDividendo(55);
         int resultadoNR=drs.drc(drs.getDividendo(), drs.getDivisor());
         int resultadoR=drs.drcR(drs.getDividendo(), drs.getDivisor());
         
