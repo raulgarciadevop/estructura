@@ -24,23 +24,37 @@ public class Pila {
     
     //Func
     public void ingresar(int n){
-        
+        if(tam<tope)
+            p[++tope]=n;
     }
     
-    public void obtener(){
-        
+    public int obtener(){
+        return p[tope];
+    }
+    
+    public void setTam(int t){
+        this.tam=t;
     }
     
     public boolean estaVacia(){
         return this.tam==0;
     }
+    
+    public int getTope(){
+        return tope;
+    }
+    
+    public int getTam(){
+        return tam;
+    }
 
     /**
      * @param args the command line arguments
-     */
+     
     public static void main(String[] args) {
         // TODO code application logic here
     }
+    * */
     
     
     /*
