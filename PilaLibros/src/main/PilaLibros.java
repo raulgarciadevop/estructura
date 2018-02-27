@@ -21,7 +21,9 @@ public class PilaLibros {
 
     public PilaLibros(int t) {
         tam = t;
-        tope = t;
+        //tope = t;
+        tope=-1;
+        
         L=new Libro[tam];
     }
     
@@ -31,6 +33,10 @@ public class PilaLibros {
     
     public boolean estaLlena(){
         return tope==tam-1;
+    }
+    
+    public int getTam(){
+        return tam;
     }
     
     public void ingresar(Libro l){
