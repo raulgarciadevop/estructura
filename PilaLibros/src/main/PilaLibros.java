@@ -39,6 +39,10 @@ public class PilaLibros {
         return tam;
     }
     
+    public int getTope(){
+        return tope;
+    }
+    
     public void ingresar(Libro l){
         if(!estaLlena())
             L[++tope]=l;

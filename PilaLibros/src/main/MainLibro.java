@@ -5,6 +5,7 @@
  */
 package main;
 
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -291,10 +292,20 @@ public class MainLibro extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // Ingresar
-        Libro l=new Libro(txtIsbn.getText(),txtAutor.getText(),txtNombre.getText(),Integer.parseInt(txtPaginas.getText()),Integer.parseInt(txtPrecio.getText()));
-        p.ingresar(l);
-        clearObj();
-        btnObtener.setEnabled(true);
+        try{
+            //if(txtIsbn.getText()!=null txtAutor.getText(), txtNombre.getText(), Integer.parseInt(txtPaginas.getText()), Integer.parseInt(txtPrecio.getText())
+            Libro l = new Libro(txtIsbn.getText(), txtAutor.getText(), txtNombre.getText(), Integer.parseInt(txtPaginas.getText()), Integer.parseInt(txtPrecio.getText()));
+            p.ingresar(l);
+            clearObj();
+            btnObtener.setEnabled(true);
+        }catch(NumberFormatException a){
+            showMessageDialog(null, "Error, ingrese solo valores enteros en los campos 'pagina' y 'precio'");
+            txtPaginas.requestFocus();
+        }catch(Exception e){
+            showMessageDialog(null, "Error, ingrese valores validos.");
+            txtIsbn.requestFocus();
+        }
+        
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnTamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTamActionPerformed
@@ -328,6 +339,10 @@ public class MainLibro extends javax.swing.JFrame {
 
     private void btnObtenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObtenerActionPerformed
         // Obtener
+        
+        for(int i=0;i<p.getTope();i++){//menor que tope
+            dtm.setValueAt(p.obtener(), i, 0);
+        }
         
     }//GEN-LAST:event_btnObtenerActionPerformed
 
