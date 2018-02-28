@@ -296,6 +296,7 @@ public class MainLibro extends javax.swing.JFrame {
             //if(txtIsbn.getText()!=null txtAutor.getText(), txtNombre.getText(), Integer.parseInt(txtPaginas.getText()), Integer.parseInt(txtPrecio.getText())
             Libro l = new Libro(txtIsbn.getText(), txtAutor.getText(), txtNombre.getText(), Integer.parseInt(txtPaginas.getText()), Integer.parseInt(txtPrecio.getText()));
             p.ingresar(l);
+            dtm.setValueAt(l, p.getTope(), 0);
             clearObj();
             btnObtener.setEnabled(true);
         }catch(NumberFormatException a){
@@ -340,9 +341,8 @@ public class MainLibro extends javax.swing.JFrame {
     private void btnObtenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObtenerActionPerformed
         // Obtener
         
-        for(int i=0;i<p.getTope();i++){//menor que tope
-            dtm.setValueAt(p.obtener(), i, 0);
-        }
+        dtm.removeRow(p.getTope());
+        p.obtener();
         
     }//GEN-LAST:event_btnObtenerActionPerformed
 
