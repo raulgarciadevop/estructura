@@ -5,6 +5,9 @@
  */
 package main;
 
+import exceptions.EstaLlenaException;
+import exceptions.EstaVaciaException;
+
 /**
  *
  * @author SB-C3
@@ -25,26 +28,28 @@ public class ColaString {
     }
     
     //Entrada
-    public void entrada(String cad){
+    public void entrada(String cad) throws EstaLlenaException{
         if(!estaLleno())
             C[++fin]=cad;
-        else
-            javax.swing.JOptionPane.showMessageDialog(null, "Cola llena.");
+        else{
+            throw new EstaLlenaException();
+        }
     }
     
     //Salida
-    public String salida(){
+    public String salida() throws EstaVaciaException{
         if(!estaVacio())
             return C[fin--];
         else{
-            javax.swing.JOptionPane.showMessageDialog(null, "Cola vacia.");
-            return null;
+            //return null;
+            //javax.swing.JOptionPane.showMessageDialog(null, "Cola vacia.");
+            throw new EstaVaciaException();
         }
     }
     
     //Esta lleno, vacio, etc
     public boolean estaVacio(){
-        return fin==-1;
+        return fin==-1 || fin==0;
     }
     
     public boolean estaLleno(){

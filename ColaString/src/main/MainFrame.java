@@ -5,6 +5,8 @@
  */
 package main;
 
+import exceptions.EstaLlenaException;
+import exceptions.EstaVaciaException;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,6 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         btnIngresar.setEnabled(false);
         btnObtener.setEnabled(false);
+        txtTexto.setEnabled(false);
         dtm=(DefaultTableModel)tblA.getModel();
     }
 
@@ -225,17 +228,33 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnTamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTamActionPerformed
         // Set Tam
-        cs=new ColaString(Integer.parseInt(txtTam.getText()));
+        try{
+            if(!txtTam.getText().isEmpty()){
+                cs=new ColaString(Integer.parseInt(txtTam.getText()));
+            
+                //Crear tabla
+                dtm.setRowCount(cs.getTam());
 
-        //Crear tabla
-        dtm.setRowCount(cs.getTam());
+                //Clear
+                txtTam.setText("");
+                txtTam.setEnabled(false);
 
-        //Clear
-        txtTam.setText("");
-        txtTam.setEnabled(false);
-
-        //Enable fields
-        btnIngresar.setEnabled(true);
+                //Enable fields
+                btnIngresar.setEnabled(true);
+                btnTam.setEnabled(false);
+                txtTexto.setEnabled(true);
+            }
+            else{
+                showMessageDialog(null, "Por favor ingrese un tamaño para la cola.");
+                txtTam.requestFocus();
+            }
+            
+        }catch(NumberFormatException e){
+            showMessageDialog(null, "Por favor ingrese un tamaño (en valor entero) para la cola.");
+            txtTam.setText("");
+            txtTam.requestFocus();
+        }
+        
 
     }//GEN-LAST:event_btnTamActionPerformed
 
@@ -254,6 +273,24 @@ public class MainFrame extends javax.swing.JFrame {
         //for(int i=0;i<p.getTope();i++){//menor que tope
          //   dtm.setValueAt(p.obtener(), i, 0);
         //}
+        
+        try{
+            dtm.removeRow(cs.getFin());
+            cs.salida();
+            
+            /*if(!btnIngresar.isEnabled()){
+                txtTexto.setEnabled(true);
+                btnIngresar.setEnabled(true);
+            }
+            */
+        }catch(EstaVaciaException e){
+            showMessageDialog(null, "Cola vacia.");
+            btnObtener.setEnabled(false);
+            
+            txtTam.setEnabled(true);
+            txtTam.requestFocus();
+            btnTam.setEnabled(true);
+        }
 
     }//GEN-LAST:event_btnObtenerActionPerformed
 
@@ -262,9 +299,18 @@ public class MainFrame extends javax.swing.JFrame {
         try{
                 cs.entrada(txtTexto.getText());
                 
+                //Asigna valor a la tabla
                 dtm.setValueAt(txtTexto.getText(), cs.getFin(), 1);
+                //Asigna el indice
+                dtm.setValueAt(cs.getFin()+1, cs.getFin(), 0);
+                
                 txtTexto.setText("");
                 btnObtener.setEnabled(true);
+            }catch(EstaLlenaException e){
+                showMessageDialog(null, "Cola llena.");
+                txtTexto.setText("");
+                txtTexto.setEnabled(false);
+                btnIngresar.setEnabled(false);
             }catch(Exception e){
                 showMessageDialog(null, "Error, ingrese valores validos.");
                 txtTexto.requestFocus();
