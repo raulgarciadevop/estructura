@@ -5,6 +5,8 @@
  */
 package main;
 
+import exceptions.EstaVaciaException;
+
 /**
  *
  * @author SB-C3
@@ -30,20 +32,43 @@ public class ListaSimple {
     }
     
     public NodoF existe(float d){
-        for(NodoF i=inicio;i!=null;i=i.getSig())
-            if(i.getInfo()==d)
+        for(NodoF i=inicio;i!=fin;i=i.getSig())
+            if(i.getSig().getInfo()==d)
                 return i;
         
         return null;
     }
     
     public void eliminar(float d){
+        if(inicio.getInfo()==d){
+            inicio=inicio.getSig();
+            return;
+        }
+        
         NodoF temp=existe(d);
         if(temp==null)
             javax.swing.JOptionPane.showMessageDialog(null, "El dato '"+d+"' no existe");
         //else tarea, terminar para eliminarlo
-            
+        else
+            temp.setSig(temp.getSig().getSig());
     }
+    
+    public String mostrar() throws EstaVaciaException{
+        String cad = "";
+        if (!estaVacia()) {
+            
+            for (NodoF i = inicio; i != null; i.getSig()) {
+                cad = cad + "(" + i.getInfo() + ")";
+            }
+        }
+        else
+            throw new EstaVaciaException("Lista vacia");
+        
+        return cad;
+    }
+    
+    //Tarea:
+    // CAMBIAR DATO
     
     //Tarea: mostrar los datos de la lista
     //Regresa el elemento
