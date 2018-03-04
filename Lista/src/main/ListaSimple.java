@@ -6,6 +6,7 @@
 package main;
 
 import exceptions.EstaVaciaException;
+import static javax.swing.JOptionPane.showInputDialog;
 
 /**
  *
@@ -38,7 +39,7 @@ public class ListaSimple {
         
         return null;
     }
-    
+     
     public void eliminar(float d){
         if(inicio.getInfo()==d){
             inicio=inicio.getSig();
@@ -57,7 +58,7 @@ public class ListaSimple {
         String cad = "";
         if (!estaVacia()) {
             
-            for (NodoF i = inicio; i != null; i.getSig()) {
+            for (NodoF i = inicio; i != null; i=i.getSig()) {
                 cad = cad + "(" + i.getInfo() + ")";
             }
         }
@@ -69,6 +70,18 @@ public class ListaSimple {
     
     //Tarea:
     // CAMBIAR DATO
+    
+    public void modificar(float d){
+        
+        NodoF temp=existe(d);
+        if(temp==null)
+            javax.swing.JOptionPane.showMessageDialog(null, "El dato '"+d+"' no existe");
+        else{
+            float nv=Float.parseFloat(showInputDialog("Ingrese el nuevo valor para "+d));
+            temp.getSig().setInfo(nv);
+        }
+            
+    }
     
     //Tarea: mostrar los datos de la lista
     //Regresa el elemento
