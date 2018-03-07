@@ -5,6 +5,8 @@
  */
 package main;
 
+import exceptions.EstaVaciaException;
+
 /**
  *
  * @author SB-C3
@@ -57,6 +59,32 @@ public class ListaDE {
         }
         
     }
+    
+    public void modificar(int d){
+        NodoDE temp=existe(d);
+        if(temp==null)
+            javax.swing.JOptionPane.showMessageDialog(null, "El dato '"+d+"' no existe");
+        else{
+            int nv=Integer.parseInt(javax.swing.JOptionPane.showInputDialog("Ingrese el nuevo valor para "+d));
+            temp.setDato(nv);
+        }
+    }
+    
+    public String mostrar() throws EstaVaciaException{
+        String cad = "";
+        if (!estaVacia()) {
+            
+            for (NodoDE i = inicio; i != null; i=i.getSig()) {
+                cad = cad + "(" + i.getDato() + ")";
+            }
+        }
+        else
+            throw new EstaVaciaException("Lista vacia");
+        
+        return cad;
+    }
+    
+    
     
     
     
