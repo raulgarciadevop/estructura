@@ -5,6 +5,8 @@
  */
 package main;
 
+import exceptions.EstaVaciaException;
+
 /**
  *
  * @author SB-C3
@@ -60,6 +62,28 @@ public class ListaDC {
         }
         temp=null;//No necesaria
         
+    }
+    
+    public String mostrar() throws EstaVaciaException{
+        String cad = "";
+        if(inicio!=null) {
+            
+            for (Nodo i = inicio; i != null; i=i.getSig()) {
+                cad = cad + "(" + i.getD().toString() + ")";
+            }
+        }
+        else
+            throw new EstaVaciaException("Lista vacia");
+        
+        return cad;
+    }
+    
+    public void modificar(Alumno a){
+        Nodo temp=existe(a.getNc());
+        if(temp!=null)
+            temp.setD(a);
+        else
+            javax.swing.JOptionPane.showMessageDialog(null, "No existe");
     }
     
     
