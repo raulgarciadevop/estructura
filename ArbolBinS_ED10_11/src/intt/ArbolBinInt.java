@@ -47,20 +47,9 @@ public class ArbolBinInt {
                         temp=temp.getDer();
                 
                 }
-                
-                //if(temp==null)
-                    //temp=new NodoInt(d);
-                //break;
             }
             
         }
-        /*else terminar el else
-            Arboles y grafos
-            Investigar aplicaciones de arboles y de grafos
-            
-        if(d<raiz.getInfo())
-                raiz.setDer(new NodoInt(d));
-        */ 
     }
     
     public void preOrden(NodoInt r){
