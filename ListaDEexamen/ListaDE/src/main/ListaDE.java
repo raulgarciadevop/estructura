@@ -18,6 +18,23 @@ public class ListaDE {
         inicio=fin=null;
     }
     
+    public NodoDE mayor(Materia m){
+        NodoDE temp=null;
+        for (NodoDE i = inicio; i != fin; i = i.getSig()) {
+            if (i.getDato().getCalificacion() > m.getCalificacion()) {
+                temp=i;
+            }
+            else if(fin.getDato().getCalificacion()>m.getCalificacion()){
+                temp=fin;
+            }
+        }
+                //fin.setSig(new NodoDE(m));
+               // fin.getSig().setAnt(fin);
+                //fin=fin.getSig();
+        
+        return temp;
+    }
+    
     public void insertar(Materia m){
         
         if(estaVacia())
@@ -26,12 +43,32 @@ public class ListaDE {
             /*
                 Buscar numero mayor e ingresar una posicion antes el numero
             */
-            for(NodoDE i=inicio;i!=fin;i=i.getSig()){
-                if(i.getDato().getCalificacion()>m.getCalificacion()){
-                    i.setAnt(new NodoDE(m));
-                    i.getSig().setAnt(i);
+            NodoDE mayor=mayor(m);
+            
+            if(mayor==null){
+                if(inicio==fin){
+                    fin.setAnt(new NodoDE(m));
+                    fin.getAnt().setAnt(fin);
+                    inicio=fin.getAnt();
+                }else{
+                    fin.setAnt(new NodoDE(m));
+                    fin.getAnt().setAnt(fin.getAnt().getAnt());
                 }
+            }else{
+                if(inicio==fin){
+                    inicio=new NodoDE(m);
+                    fin.setAnt(inicio);
+                    inicio.setSig(fin);
+                }else{
+                    mayor.getAnt().setSig(new NodoDE(m));
+                    mayor.setAnt(mayor.getAnt().getSig());
+                }
+                
             }
+            
+            
+            
+            
             
             /*
             if(m.getCalificacion()>=fin.getDato().getCalificacion()){
