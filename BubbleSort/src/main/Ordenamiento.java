@@ -94,7 +94,41 @@ public class Ordenamiento {
         
     }
     
-    public void radix(){
+    public int[] radix(int[] A){
+        int mayor=A[0],n=A.length;
+        for(int i=0;i<n;i++)
+            if(A[i]>mayor)
+                mayor=A[i];
+        
+        int d=(mayor+"").length();
+        //Buscar cola simple
+        
+        ColaSimple M[] =new ColaSimple[10];
+        
+        for(int i=1;i<n;i++)
+            M[i]=new ColaSimple(n);
+        
+        //int c=0;
+        
+        for(int dig=1;dig<=d;dig++){
+            for(int i=0;i<n;i++){
+                String num=A[i]+"";
+                int inicio=num.length()-dig,pos,fin=inicio+1;
+                if(inicio<0)
+                    pos=0;
+                pos=Integer.parseInt(num.substring(inicio,fin));
+                M[pos].inscola(A[i]);//Insertar
+            }
+            int a=0;
+            
+            for(int c=0;c<10;c++)
+                while(M[c].getTope()>=0){
+                    //A[a++]=M[c].sacar();
+                }
+            
+        }
+        return A;
+        
         
     }
     
@@ -151,3 +185,8 @@ public class Ordenamiento {
     }
     */
 }
+
+
+// tienes cola simpl
+
+//Reciben arreglo, encuentran el mayor 

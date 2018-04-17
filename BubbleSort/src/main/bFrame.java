@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class bFrame extends javax.swing.JFrame {
     private Bubble b;
+    private Ordenamiento ord;
    
     //private int[] arr;
     
@@ -26,6 +27,7 @@ public class bFrame extends javax.swing.JFrame {
         b=new Bubble();
        
         dtm=(DefaultTableModel)tblM.getModel();
+        ord=new Ordenamiento();
         
     }
 
@@ -48,6 +50,7 @@ public class bFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -160,6 +163,13 @@ public class bFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("Putos todos");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -169,6 +179,8 @@ public class bFrame extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -183,7 +195,8 @@ public class bFrame extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton1)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
                 .addContainerGap())
         );
 
@@ -243,6 +256,22 @@ public class bFrame extends javax.swing.JFrame {
         // Clean
         clean();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // Radix
+        int[] arr=new int[dtm.getRowCount()];
+        for(int i=0;i<dtm.getRowCount();i++)
+            arr[i]=(int)dtm.getValueAt(i, 0);
+        
+        ord.radix(arr);
+        
+        dtm.setRowCount(arr.length);
+        
+        for(int i=0;i<arr.length;i++)
+            dtm.setValueAt(arr[i], i, 1);
+        
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void clean(){
         int opt=0;
@@ -324,6 +353,7 @@ public class bFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
