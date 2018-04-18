@@ -5,6 +5,8 @@
  */
 package main;
 
+import exceptions.EstaLlenaException;
+import exceptions.EstaVaciaException;
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
@@ -163,7 +165,7 @@ public class bFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Putos todos");
+        jButton5.setText("Radix");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -263,7 +265,12 @@ public class bFrame extends javax.swing.JFrame {
         for(int i=0;i<dtm.getRowCount();i++)
             arr[i]=(int)dtm.getValueAt(i, 0);
         
-        ord.radix(arr);
+        try{
+            ord.radix(arr);
+        }catch(EstaVaciaException | EstaLlenaException e){
+            
+        }
+        
         
         dtm.setRowCount(arr.length);
         

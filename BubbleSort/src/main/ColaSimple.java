@@ -5,77 +5,85 @@
  */
 package main;
 
+import exceptions.EstaLlenaException;
+import exceptions.EstaVaciaException;
+
 /**
  *
  * @author SB-C3
  */
 public class ColaSimple {
-
-    public int max;
-    protected Object dret;
-    public Object c[];
-    public int fre = -1;
-    public int fin = -1;
+    private int tam, fin;
+    private int[] C;
 
     public ColaSimple() {
-        max = 20;
-        c = new Object[max];
+        tam=0;
+        fin=-1;
     }
 
-    public ColaSimple(int n) {
-        max = n;
-        c = new Object[max];
-    }
-
-    public boolean colallena(int fin, int max) {
-        boolean llena;
-        if (fin == max - 1) {
-            llena = true;
-        } else {
-            llena = false;
-        }
-        return llena;
-    }
-
-    public boolean colavacia(int fre) {
-        boolean vacia;
-        if (fre == -1) {
-            vacia = true;
-        } else {
-            vacia = false;
-        }
-        return vacia;
-    }
-
-    public boolean inscola(Object dato) {
-        if (fin == max - 1) {
-            return false;
-        }
-        fin++;
-        c[fin] = dato;
-        if (fin == 0) {
-            fre = 0;
-        }
-        return true;
-    }
-
-    public boolean retcola() {
-        if (fre == -1) {
-            return false;
-        }
-        dret = c[fre];
-        if (fre == fin) {
-            fre = -1;
-            fin = -1;
-        } else {
-            fre++;
-        }
-        return true;
+    public ColaSimple(int t) {
+        this.tam = t;
+        this.fin = -1;
+        this.C = new int[tam];
     }
     
-    public int getTope(){
+    //Entrada
+    public void entrada(int al) throws EstaLlenaException{
+        if(!estaLleno())
+            C[++fin]=al;
+        else{
+            throw new EstaLlenaException("Cola llena.");
+        }
+    }
+    
+    //Salida
+    public int salida() throws EstaVaciaException{
+        
+        if(!estaVacio())
+            return C[fin--];
+        else{
+            //return null;
+            //javax.swing.JOptionPane.showMessageDialog(null, "Cola vacia.");
+            throw new EstaVaciaException("Cola vacia");
+        }
+    }
+    
+    //Esta lleno, vacio, etc
+    public boolean estaVacio(){
+        return fin==-1 || fin==0;
+    }
+    
+    public boolean estaLleno(){
+        return fin==tam-1;
+    }
+
+    //Setters
+    public void setTam(int tam) {
+        this.tam = tam;
+    }
+
+    public void setFin(int fin) {
+        this.fin = fin;
+    }
+
+    public void setC(int[] C) {
+        this.C = C;
+    }
+    
+    //Getters
+
+    public int getTam() {
+        return tam;
+    }
+
+    public int getFin() {
         return fin;
     }
+
+    public int[] getC() {
+        return C;
+    }
+    
+    
+    
 }
-
-

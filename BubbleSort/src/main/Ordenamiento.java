@@ -5,6 +5,9 @@
  */
 package main;
 
+import exceptions.EstaLlenaException;
+import exceptions.EstaVaciaException;
+
 /**
  *
  * @author SB-C3
@@ -90,11 +93,13 @@ public class Ordenamiento {
         
     }
     
+    //SHELL
     public void shell(){
         
     }
     
-    public int[] radix(int[] A){
+    //RADIX
+    public int[] radix(int[] A) throws EstaLlenaException, EstaVaciaException{
         int mayor=A[0],n=A.length;
         for(int i=0;i<n;i++)
             if(A[i]>mayor)
@@ -103,33 +108,34 @@ public class Ordenamiento {
         int d=(mayor+"").length();
         //Buscar cola simple
         
-        ColaSimple M[] =new ColaSimple[10];
+        ColaSimple M[] =new ColaSimple[10];//Reserva espacio
         
-        for(int i=1;i<n;i++)
-            M[i]=new ColaSimple(n);
+        //for(int i=1;i<n;i++)
+        for(int i=1;i<10;i++)
+            M[i]=new ColaSimple(n);//Crear colas, del tamaño del arreglo
         
         //int c=0;
         
         for(int dig=1;dig<=d;dig++){
-            for(int i=0;i<n;i++){
+            for(int i=0;i<n;i++){//Recorre todos los elementos del arreglo
                 String num=A[i]+"";
                 int inicio=num.length()-dig,pos,fin=inicio+1;
                 if(inicio<0)
                     pos=0;
                 pos=Integer.parseInt(num.substring(inicio,fin));
-                M[pos].inscola(A[i]);//Insertar
+                
+                M[pos].entrada(A[i]);//Insertar, EstaLlenaException
             }
-            int a=0;
+            int a=0; //Regresar los datos al array original, ordenados por digito
             
             for(int c=0;c<10;c++)
-                while(M[c].getTope()>=0){
-                    //A[a++]=M[c].sacar();
-                }
+                //while(M[c].getFin()>=0)
+                while(!M[c].estaVacio())
+                    A[a++]=M[c].salida(); //Obtener, EstaVaciaException
+                
             
         }
         return A;
-        
-        
     }
     
     /*
