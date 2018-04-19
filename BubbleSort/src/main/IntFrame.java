@@ -15,8 +15,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author SB-C3
  */
-public class bFrame extends javax.swing.JFrame {
-    private Bubble b;
+public class IntFrame extends javax.swing.JFrame {
     private Ordenamiento ord;
    
     //private int[] arr;
@@ -24,9 +23,8 @@ public class bFrame extends javax.swing.JFrame {
     /**
      * Creates new form bFrame
      */
-    public bFrame() {
+    public IntFrame() {
         initComponents();
-        b=new Bubble();
        
         dtm=(DefaultTableModel)tblM.getModel();
         ord=new Ordenamiento();
@@ -234,11 +232,7 @@ public class bFrame extends javax.swing.JFrame {
         for(int i=0;i<dtm.getRowCount();i++)
             arr[i]=(int)dtm.getValueAt(i, 0);
         
-        
-        //b.sort(arr);
-      ordShell.ordShell(arr);
-    // ordShell.ordShellAsdente(arr, rootPaneCheckingEnabled);
-    //ordShell.ordShellAsdente(arr, rootPaneCheckingEnabled);
+        ord.shell(arr,true);
         dtm.setRowCount(arr.length);
         
         for(int i=0;i<arr.length;i++)
@@ -335,20 +329,21 @@ public class bFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(bFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IntFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(bFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IntFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(bFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IntFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(bFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IntFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new bFrame().setVisible(true);
+                new IntFrame().setVisible(true);
             }
         });
     }
