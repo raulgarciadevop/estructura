@@ -5,6 +5,11 @@
  */
 package main;
 
+import Objects.Alumno;
+import exceptions.EstaLlenaException;
+import exceptions.EstaVaciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,16 +17,20 @@ import javax.swing.table.DefaultTableModel;
  * @author SB-A1
  */
 public class AlumnoFrame extends javax.swing.JFrame {
-    
 
     /**
      * Creates new form AlumnoFrame
      */
     public AlumnoFrame() {
         initComponents();
-        dtm=(DefaultTableModel)tblAlumnos.getModel();
+        dtm = (DefaultTableModel) tblAlumnos.getModel();
         dtm.setRowCount(0);
-        ord=new Ordenamiento();
+        ord = new Ordenamiento();
+
+        rGroup.add(cBubble);
+        rGroup.add(cQuicksort);
+        rGroup.add(cShell);
+        rGroup.add(cRadix);
     }
 
     /**
@@ -33,16 +42,21 @@ public class AlumnoFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAlumnos = new javax.swing.JTable();
         btnR = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        cBubble = new javax.swing.JRadioButton();
+        cQuicksort = new javax.swing.JRadioButton();
+        cShell = new javax.swing.JRadioButton();
+        cRadix = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,7 +64,7 @@ public class AlumnoFrame extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Alumno (Bubble sort)");
+        jLabel1.setText("Alumno (Ordenamiento)");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,19 +116,13 @@ public class AlumnoFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Limpiar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        cBubble.setText("Bubble");
 
-        jButton4.setText("Ordenar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
+        cQuicksort.setText("Quicksort");
+
+        cShell.setText("Shell");
+
+        cRadix.setText("Radix");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -124,10 +132,13 @@ public class AlumnoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnR, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnR, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cBubble)
+                    .addComponent(cQuicksort)
+                    .addComponent(cShell)
+                    .addComponent(cRadix))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -136,11 +147,15 @@ public class AlumnoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnR)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnR)
+                            .addComponent(cBubble))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(cQuicksort)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))
+                        .addComponent(cShell)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cRadix))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -154,12 +169,30 @@ public class AlumnoFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Ordenar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Limpiar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(334, 334, 334)
                 .addComponent(jButton3)
                 .addContainerGap())
         );
@@ -167,7 +200,10 @@ public class AlumnoFrame extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -200,7 +236,7 @@ public class AlumnoFrame extends javax.swing.JFrame {
 
     private void btnRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRActionPerformed
         //Agregar
-        dtm.setRowCount(dtm.getRowCount()+1);
+        dtm.setRowCount(dtm.getRowCount() + 1);
     }//GEN-LAST:event_btnRActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -215,9 +251,8 @@ public class AlumnoFrame extends javax.swing.JFrame {
 
     private void tblAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAlumnosMouseClicked
         // TODO add your handling code here:
-        
-    
-    
+
+
     }//GEN-LAST:event_tblAlumnosMouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -225,31 +260,66 @@ public class AlumnoFrame extends javax.swing.JFrame {
         add2r();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void add2r(){
-        int tam=dtm.getRowCount()-1;
-        btnR.setText(String.valueOf(tam));
-        Alumno[] A=new Alumno[dtm.getRowCount()];
+    private void add2r() {
+        //Crea y llena el arreglo con los datos de la tabla:
+        int tam = dtm.getRowCount();//-1;
+        Alumno[] A = new Alumno[dtm.getRowCount()];
+
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            A[i] = new Alumno(dtm.getValueAt(0, i).toString(), dtm.getValueAt(1, i).toString(), Integer.parseInt(dtm.getValueAt(2, i).toString()), Integer.parseInt(dtm.getValueAt(3, i).toString()));
+        }
+
+        //Elegir el metodo de ordenamiento:
+        if (rGroup.getSelection() == cBubble)
+            ord.bubble(A, tblAlumnos.getSelectedColumn());
+        else if (rGroup.getSelection() == cQuicksort)
+            ord.quicksort(A, 0, A.length - 1, tblAlumnos.getSelectedColumn());
+        else if (rGroup.getSelection() == cShell)
+            ord.shell(A, true, tblAlumnos.getSelectedColumn());
+        else if (rGroup.getSelection() == cRadix){
+            try{
+                ord.radix(A, tblAlumnos.getSelectedColumn());
+            }catch(EstaVaciaException | EstaLlenaException e){
+                
+            }
+        }
         
-        for(int i=0;i<dtm.getRowCount();i++){
-            A[i]=new Alumno(dtm.getValueAt(0, i).toString(),dtm.getValueAt(1, i).toString(),Integer.parseInt(dtm.getValueAt(2, i).toString()),Integer.parseInt(dtm.getValueAt(3, i).toString()));
-        }//ArrayOutOfBounds
+        //Volver a llenar la tabla con los valores ya ordenados, depende de la columna seleccionada
+        switch (tblAlumnos.getSelectedColumn()) {
+            case 0:
+                for (int i = 0; i < dtm.getRowCount(); i++) 
+                    dtm.setValueAt(A[i].getNo_ctrl(), i, 0);
+                
+                break;
+            case 1:
+                for (int i = 0; i < dtm.getRowCount(); i++) 
+                    dtm.setValueAt(A[i].getNombre(), i, 1);
+                
+                break;
+            case 2:
+                for (int i = 0; i < dtm.getRowCount(); i++) 
+                    dtm.setValueAt(A[i].getEdad(), i, 2);
+                
+                break;
+            case 3:
+                for (int i = 0; i < dtm.getRowCount(); i++) 
+                    dtm.setValueAt(A[i].getCalif(), i, 3);
+                
+                break;
+        }
         
-        /*
-        Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 2 >= 2
-	at java.util.Vector.elementAt(Vector.java:474)
-	at javax.swing.table.DefaultTableModel.getValueAt(DefaultTableModel.java:648)
-	at main.AlumnoFrame.add2r(AlumnoFrame.java:234)
-        */
         
-        ord.bubble(A,tblAlumnos.getSelectedColumn());
         
+        
+    
     }
+        /**
+         * @param args the command line arguments
+         */
     
+
     
-    
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -286,6 +356,10 @@ public class AlumnoFrame extends javax.swing.JFrame {
     private final DefaultTableModel dtm;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnR;
+    private javax.swing.JRadioButton cBubble;
+    private javax.swing.JRadioButton cQuicksort;
+    private javax.swing.JRadioButton cRadix;
+    private javax.swing.JRadioButton cShell;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -294,6 +368,7 @@ public class AlumnoFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.ButtonGroup rGroup;
     private javax.swing.JTable tblAlumnos;
     // End of variables declaration//GEN-END:variables
 }
