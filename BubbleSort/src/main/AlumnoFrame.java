@@ -57,6 +57,7 @@ public class AlumnoFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -183,6 +184,13 @@ public class AlumnoFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Fill");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -192,7 +200,9 @@ public class AlumnoFrame extends javax.swing.JFrame {
                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(334, 334, 334)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(255, 255, 255)
                 .addComponent(jButton3)
                 .addContainerGap())
         );
@@ -203,7 +213,8 @@ public class AlumnoFrame extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -260,32 +271,55 @@ public class AlumnoFrame extends javax.swing.JFrame {
         add2r();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Llenar
+        gen();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void add2r() {
         //Crea y llena el arreglo con los datos de la tabla:
         int tam = dtm.getRowCount();//-1;
-        Alumno[] A = new Alumno[dtm.getRowCount()];
+        int sc=tblAlumnos.getSelectedColumn()-1;
+        Alumno[] A = new Alumno[tam];
 
-        for (int i = 0; i < dtm.getRowCount(); i++) {
-            A[i] = new Alumno(dtm.getValueAt(0, i).toString(), dtm.getValueAt(1, i).toString(), Integer.parseInt(dtm.getValueAt(2, i).toString()), Integer.parseInt(dtm.getValueAt(3, i).toString()));
+        for (int i = 0; i < tam; i++) {
+            A[i] = new Alumno(dtm.getValueAt(i, 0).toString(), dtm.getValueAt(i,1).toString(), Integer.parseInt(dtm.getValueAt(i,2).toString()), Integer.parseInt(dtm.getValueAt(i,3).toString()));
         }
 
         //Elegir el metodo de ordenamiento:
+        if(cBubble.isSelected())
+            ord.bubble(A, sc);
+        
+        if(cQuicksort.isSelected())
+            ord.quicksort(A, 0, A.length-1, sc);
+        
+        /*
         if (rGroup.getSelection() == cBubble)
-            ord.bubble(A, tblAlumnos.getSelectedColumn());
+            ord.bubble(A, sc);
         else if (rGroup.getSelection() == cQuicksort)
-            ord.quicksort(A, 0, A.length - 1, tblAlumnos.getSelectedColumn());
+            ord.quicksort(A, 0, A.length - 1, sc);
         else if (rGroup.getSelection() == cShell)
-            ord.shell(A, true, tblAlumnos.getSelectedColumn());
+            ord.shell(A, true, sc);
         else if (rGroup.getSelection() == cRadix){
             try{
-                ord.radix(A, tblAlumnos.getSelectedColumn());
+                ord.radix(A, sc);
             }catch(EstaVaciaException | EstaLlenaException e){
                 
             }
         }
+        */
         
         //Volver a llenar la tabla con los valores ya ordenados, depende de la columna seleccionada
-        switch (tblAlumnos.getSelectedColumn()) {
+        
+        for(int i=0;i<dtm.getRowCount();i++){
+            dtm.setValueAt(A[i].getNo_ctrl(), i, 0);
+            dtm.setValueAt(A[i].getNombre(), i, 1);
+            dtm.setValueAt(A[i].getEdad(), i, 2);
+            dtm.setValueAt(A[i].getCalif(), i, 3);
+        }
+        
+        /*
+        switch (sc) {
             case 0:
                 for (int i = 0; i < dtm.getRowCount(); i++) 
                     dtm.setValueAt(A[i].getNo_ctrl(), i, 0);
@@ -307,12 +341,45 @@ public class AlumnoFrame extends javax.swing.JFrame {
                 
                 break;
         }
+        */
         
         
         
         
     
     }
+    
+    
+    private void gen(){
+        dtm.setRowCount(5);
+        
+        dtm.setValueAt("AL08", 0, 0);
+        dtm.setValueAt("isisa", 0, 1);
+        dtm.setValueAt("19", 0, 2);
+        dtm.setValueAt("33", 0, 3);
+        
+        dtm.setValueAt("AL", 1, 0);
+        dtm.setValueAt("alondra", 1, 1);
+        dtm.setValueAt("20", 1, 2);
+        dtm.setValueAt("98", 1, 3);
+        
+        dtm.setValueAt("ZOL1", 2, 0);
+        dtm.setValueAt("raul", 2, 1);
+        dtm.setValueAt("22", 2, 2);
+        dtm.setValueAt("100", 2, 3);
+        
+        dtm.setValueAt("ads3", 3, 0);
+        dtm.setValueAt("erick", 3, 1);
+        dtm.setValueAt("11", 3, 2);
+        dtm.setValueAt("40", 3, 3);
+        
+        dtm.setValueAt("AL09", 4, 0);
+        dtm.setValueAt("lili", 4, 1);
+        dtm.setValueAt("13", 4, 2);
+        dtm.setValueAt("80", 4, 3);
+        
+    }
+    
         /**
          * @param args the command line arguments
          */
@@ -360,6 +427,7 @@ public class AlumnoFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton cQuicksort;
     private javax.swing.JRadioButton cRadix;
     private javax.swing.JRadioButton cShell;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

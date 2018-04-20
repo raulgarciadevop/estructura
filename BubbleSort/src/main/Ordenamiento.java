@@ -53,7 +53,7 @@ public class Ordenamiento {
                     case 1://String
                         if (A[i].getNo_ctrl().compareToIgnoreCase(A[i + 1].getNo_ctrl()) > 0) {//checkthis){
                             String aux = A[i].getNo_ctrl();
-                            A[i] = A[i + 1];
+                            A[i].setNo_ctrl(A[i+1].getNo_ctrl());
                             A[i + 1].setNo_ctrl(aux);
                         }
                         break;
@@ -61,7 +61,7 @@ public class Ordenamiento {
                     case 2://String
                         if (A[i].getNombre().compareToIgnoreCase(A[i + 1].getNo_ctrl()) > 0) {//checkthis){
                             String aux = A[i].getNombre();
-                            A[i] = A[i + 1];
+                            A[i].setNombre(A[i+1].getNombre());
                             A[i + 1].setNombre(aux);
                         }
                         break;
@@ -69,7 +69,7 @@ public class Ordenamiento {
                     case 3:
                         if (A[i].getEdad() > A[i + 1].getEdad()) {
                             int aux = A[i].getEdad();
-                            A[i] = A[i + 1];
+                            A[i].setEdad(A[i+1].getEdad());
                             A[i + 1].setEdad(aux);
                         }
                         break;
@@ -77,7 +77,7 @@ public class Ordenamiento {
                     case 4:
                         if (A[i].getCalif() > A[i + 1].getCalif()) {
                             int aux = A[i].getCalif();
-                            A[i] = A[i + 1];
+                            A[i].setCalif(A[i+1].getCalif());
                             A[i + 1].setCalif(aux);
                         }
                         break;
