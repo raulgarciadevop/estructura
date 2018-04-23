@@ -59,7 +59,7 @@ public class Ordenamiento {
                         break;
 
                     case 2://String
-                        if (A[i].getNombre().compareToIgnoreCase(A[i + 1].getNo_ctrl()) > 0) {//checkthis){
+                        if (A[i].getNombre().compareToIgnoreCase(A[i + 1].getNombre()) > 0) {//checkthis){
                             String aux = A[i].getNombre();
                             A[i].setNombre(A[i+1].getNombre());
                             A[i + 1].setNombre(aux);
@@ -164,24 +164,24 @@ public class Ordenamiento {
                 break;
 
             case 1://Nombre
-                pivote = A[izq].getNo_ctrl();
+                pivote = A[izq].getNombre();
                 i = izq;
                 j = der;
                 while (i < j) {
-                    while (A[i].getNo_ctrl().compareToIgnoreCase(pivote) <= 0 && i < j) {
+                    while (A[i].getNombre().compareToIgnoreCase(pivote) <= 0 && i < j) {
                         i++;
                     }
-                    while (A[j].getNo_ctrl().compareToIgnoreCase(pivote) > 0) {
+                    while (A[j].getNombre().compareToIgnoreCase(pivote) > 0) {
                         j--;
                     }
                     if (i < j) {
-                        aux = A[i].getNo_ctrl();
-                        A[i].setNo_ctrl(A[j].getNo_ctrl());
-                        A[j].setNo_ctrl(aux);
+                        aux = A[i].getNombre();
+                        A[i].setNombre(A[j].getNombre());
+                        A[j].setNombre(aux);
                     }
                 }
-                A[izq].setNo_ctrl(A[j].getNo_ctrl());
-                A[j].setNo_ctrl(pivote);
+                A[izq].setNombre(A[j].getNombre());
+                A[j].setNombre(pivote);
                 if (izq < j - 1) {
                     quicksort(A, izq, j - 1, 0);
                 }
@@ -208,18 +208,18 @@ public class Ordenamiento {
                 break;
 
             case 3://Calificacion
-                piv = A[der].getEdad();
+                piv = A[der].getCalif();
                 while (izq != der) {
-                    while (A[izq].getEdad() <= piv) {
+                    while (A[izq].getCalif() <= piv) {
                         izq++;
                     }
-                    while (A[der].getEdad() > piv) {
+                    while (A[der].getCalif() > piv) {
                         der--;
                     }
-                    if (A[izq].getEdad() > A[der].getEdad()) {
-                        int auxi = A[izq].getEdad();
-                        A[izq].setEdad(A[der].getEdad());
-                        A[der].setEdad(auxi);
+                    if (A[izq].getCalif() > A[der].getCalif()) {
+                        int auxi = A[izq].getCalif();
+                        A[izq].setCalif(A[der].getCalif());
+                        A[der].setCalif(auxi);
                     }//if
                 }//while
                 break;
@@ -283,7 +283,7 @@ public class Ordenamiento {
                     for (int i = 0; i < n - cc; i++) {
                         if (A[i].getNo_ctrl().compareToIgnoreCase(A[i + cc].getNo_ctrl()) > 0) {
                             String aux = A[i].getNo_ctrl();
-                            A[i] = A[i + cc];
+                            A[i].setNo_ctrl(A[i+cc].getNo_ctrl());
                             A[i + cc].setNo_ctrl(aux);
                             cambios = true;
                         }
@@ -301,10 +301,10 @@ public class Ordenamiento {
                 while (cambios) {
                     cambios = false;
                     for (int i = 0; i < n - cc; i++) {
-                        if (A[i].getNo_ctrl().compareToIgnoreCase(A[i + cc].getNo_ctrl()) > 0) {
-                            String aux = A[i].getNo_ctrl();
-                            A[i] = A[i + cc];
-                            A[i + cc].setNo_ctrl(aux);
+                        if (A[i].getNombre().compareToIgnoreCase(A[i + cc].getNombre()) > 0) {
+                            String aux = A[i].getNombre();
+                            A[i].setNombre(A[i+cc].getNombre());
+                            A[i + cc].setNombre(aux);
                             cambios = true;
                         }
                     }
@@ -352,7 +352,7 @@ public class Ordenamiento {
                             cambios = true;
                         } else if (!asc && A[i].getCalif() < A[i + ccc].getCalif()) {
                             int aux = A[i].getCalif();
-                            A[i].setEdad(A[i + ccc].getCalif());
+                            A[i].setCalif(A[i + ccc].getCalif());
                             A[i + ccc].setCalif(aux);
                             cambios = true;
                         }
@@ -428,6 +428,7 @@ public class Ordenamiento {
                     E[j] = al.getEdad();
                     j++;
                 }
+                javax.swing.JOptionPane.showMessageDialog(null, " "+A.length+" - ");
 
                 int mayor = E[0],
                  n = E.length;
@@ -527,4 +528,13 @@ public class Ordenamiento {
         return E;
     }
 
+    
+    /*
+        Informe de avance:
+        
+        -Radix no funciona, error de ejecucion en linea 511 y 460:
+            M[pos].entrada(E[i]);//Insertar, EstaLlenaException
+        Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+    
+    */
 }

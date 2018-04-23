@@ -8,11 +8,11 @@ package main;
 
 /**
  *
- * @author Liliana Gonzalez
+ * @author RG
  */
 public class OrdenamientoExterno {
     
-     public static int [] intercalat(int[] A, int[] B){
+     public static int [] intercalar(int[] A, int[] B){
          int tc = A.length + B.length;
          int C[] = new int[tc];
          int ia = 0, ib = 0, ic = 0;
@@ -40,15 +40,73 @@ public class OrdenamientoExterno {
          int[] F2=new int[n];
          int tam=0,i=0;
          
+         boolean par=(F.length)%2>0;
+         
+         if(par){
+             while(tam<=n/2){
+                 tam=(int)Math.pow(2, i);
+                 
+                 
+                 i++;
+             }
+         }
+             
+             
+         /*
          while(tam<=n/2){
              tam=(int)Math.pow(2, i);
-             
-             
-             
-             
              i++;
          }
+        */
          
+         return F;
+     }
+     
+     public static int[] mDirecta(int[] F){
+         int i,j,k;
+         if(F.length>1){
+             int nElementosIzq=F.length/2;
+             int nElementosDer=F.length-nElementosIzq;
+             int[] arregloIzq=new int[nElementosIzq];
+             int[] arregloDer=new int[nElementosDer];
+             
+             //Se divide el arreglo original en:
+             
+             //Izquierda
+             for(i=0;i<nElementosIzq;i++)
+                 arregloIzq[i]=F[i];
+             //Derecha
+             for(i=nElementosIzq;i<nElementosIzq+nElementosDer;i++)
+                 arregloDer[i-nElementosIzq]=F[i];
+             
+             //Recursividad
+             arregloIzq=mDirecta(arregloIzq);
+             arregloDer=mDirecta(arregloDer);
+             i=j=k=0;
+             while(arregloIzq.length!=j && arregloDer.length!=k){
+                 if(arregloIzq[j]<arregloDer[k]){
+                     F[i]=arregloIzq[j];
+                     i++;
+                     k++;
+                 }
+                 else{
+                     F[i]=arregloDer[k];
+                     i++;
+                     k++;
+                 }
+             }
+             
+             while(arregloIzq.length!=j){
+                 F[i]=arregloIzq[j];
+                 i++;j++;
+             }
+             while(arregloDer.length!=k){
+                 F[i]=arregloDer[k];
+                 i++;k++;
+             }
+             
+             
+         }
          return F;
      }
 }

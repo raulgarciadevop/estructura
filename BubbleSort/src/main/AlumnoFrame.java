@@ -279,7 +279,7 @@ public class AlumnoFrame extends javax.swing.JFrame {
     private void add2r() {
         //Crea y llena el arreglo con los datos de la tabla:
         int tam = dtm.getRowCount();//-1;
-        int sc=tblAlumnos.getSelectedColumn()-1;
+        int sc=tblAlumnos.getSelectedColumn()+1;
         Alumno[] A = new Alumno[tam];
 
         for (int i = 0; i < tam; i++) {
@@ -292,6 +292,18 @@ public class AlumnoFrame extends javax.swing.JFrame {
         
         if(cQuicksort.isSelected())
             ord.quicksort(A, 0, A.length-1, sc);
+        
+        if(cShell.isSelected())
+            ord.shell(A, true, sc-1);
+        
+        if(cRadix.isSelected()){
+            try{
+                ord.radix(A, sc-1);
+            }catch(EstaVaciaException | EstaLlenaException e){
+                
+            }
+        }
+            
         
         /*
         if (rGroup.getSelection() == cBubble)
