@@ -36,31 +36,60 @@ public class OrdenamientoExterno {
      
      public static int[] mezclaDirecta(int[] F){
          int n=F.length;
-         int[] F1=new int[n];
-         int[] F2=new int[n];
-         int tam=0,i=0;
+         int t=n%2==0?n/2:(n+1)/2;//Si residuo de n/2 es mayor a 0, n=n+1/2
+         int[] F1=new int[t];
+         int[] F2=new int[t];
+         int tam=0;
          
-         boolean par=(F.length)%2>0;
-         
-         if(par){
-             while(tam<=n/2){
-                 tam=(int)Math.pow(2, i);
-                 
-                 
-                 i++;
+         for(int i=0;(tam=(int)Math.pow(2, i))<=t;i++){
+             int f=0,f1=0,f2=0;
+             /*Progreso en clase:*/
+             while(f1<tam)
+                 F1[f1++]=F[f++];
+             
+             while(f2<tam)
+                 F2[f2++]=F[f++];
+             
+             
+             
+             /*Ejemplo de Martin:
+             while(f<n){
+                 F1[f1++]=F[f++];
+                 F2[f2++]=F[f++];
              }
+             F=intercalar(F1,F2);
+             */
          }
-             
-             
-         /*
-         while(tam<=n/2){
-             tam=(int)Math.pow(2, i);
-             i++;
-         }
-        */
          
-         return F;
-     }
+         
+         
+         
+         
+         /*
+        while (tam <= n / 2) {
+
+            if (F1[i] > F2[i]) {
+                F[i] = F2[i];
+                F[i + 1] = F1[i];
+            } else {
+                F[i] = F1[i];
+                F[i + 1] = F2[i];
+            }
+
+            tam = (int) Math.pow(2, i);
+
+            i++;
+        }
+         */
+
+        /*
+         while(tam<=n/2){
+         tam=(int)Math.pow(2, i);
+         i++;
+         }
+         */
+        return F;
+    }
      
      public static int[] mDirecta(int[] F){
          int i,j,k;

@@ -21,6 +21,7 @@ public class Interfaz extends javax.swing.JFrame {
         btnG.add(rbInter);
         btnG.add(rbMD);
         opt=0;
+        
     }
 
     /**
