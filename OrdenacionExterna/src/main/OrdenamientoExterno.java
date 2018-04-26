@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Arrays;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -44,50 +46,23 @@ public class OrdenamientoExterno {
          for(int i=0;(tam=(int)Math.pow(2, i))<=t;i++){
              int f=0,f1=0,f2=0;
              /*Progreso en clase:*/
-             while(f1<tam)
-                 F1[f1++]=F[f++];
+             while(f1<F1.length && f2<F2.length){
+                 if(F1[f1]<F2[f2])
+                     F[f++]=F1[f1++];
+                 else
+                     F[f++]=F2[f2++];
              
-             while(f2<tam)
-                 F2[f2++]=F[f++];
-             
-             
-             
-             /*Ejemplo de Martin:
-             while(f<n){
-                 F1[f1++]=F[f++];
-                 F2[f2++]=F[f++];
              }
-             F=intercalar(F1,F2);
-             */
+             
+             //Si sobran en F1, pasarlos a F
+             if(f1<F1.length)
+                 System.arraycopy(F1, f1, F, f, F1.length-f1);
+             //Si sobran en F2, pasarlos a F
+             else
+                 System.arraycopy(F2, f2, F, f, F2.length-f2);
+             //System.arraycopy(fuente1, srcIndex1, dest, destIndex,
+                    //fuente1.length - srcIndex1);
          }
-         
-         
-         
-         
-         
-         /*
-        while (tam <= n / 2) {
-
-            if (F1[i] > F2[i]) {
-                F[i] = F2[i];
-                F[i + 1] = F1[i];
-            } else {
-                F[i] = F1[i];
-                F[i + 1] = F2[i];
-            }
-
-            tam = (int) Math.pow(2, i);
-
-            i++;
-        }
-         */
-
-        /*
-         while(tam<=n/2){
-         tam=(int)Math.pow(2, i);
-         i++;
-         }
-         */
         return F;
     }
      
@@ -138,4 +113,66 @@ public class OrdenamientoExterno {
          }
          return F;
      }
+     
+     
+     //INTERNETTTTTTTTTTTTTT
+     
+     private static void merge(int[] fuente1, int[] fuente2, int[] dest) {
+// indices de los 3 array
+        int srcIndex1 = 0;
+        int srcIndex2 = 0;
+        int destIndex = 0;
+
+// merge hasta que uno de los arrays fuentes este vacio
+        while (srcIndex1 < fuente1.length && srcIndex2 < fuente2.length) {
+            if (fuente1[srcIndex1] < fuente2[srcIndex2]) {//Si F1 es menor a F2, se pasa F1 actual a F original
+                dest[destIndex] = fuente1[srcIndex1];
+                srcIndex1++;
+            } else {//Si no, se pasa F2 actual a F original
+                dest[destIndex] = fuente2[srcIndex2];
+                srcIndex2++;
+            }
+            destIndex++;
+        }
+
+        if (srcIndex1 < fuente1.length) {//Si queda sobrante en F1, se pasa a F original
+            System.arraycopy(fuente1, srcIndex1, dest, destIndex,
+                    fuente1.length - srcIndex1);
+        } else {//Si queda sobrante en F2, se pasa a F original
+            System.arraycopy(fuente2, srcIndex2, dest, destIndex,
+                    fuente2.length - srcIndex2);
+        }
+    } // fin de merge();
+
+// Ordena usando mezcla natural
+// Parametros: el array a ordenar
+    public static void sort(int arr[]) {
+        if (arr.length <= 1) {
+            return;
+        }
+
+        int tam1 = arr.length / 2;
+        int tam2 = arr.length - tam1;
+
+        int primeraMitad[] = new int[tam1];
+        int segundaMitad[] = new int[tam2];
+        
+        
+
+//Se copian los elementos del arreglo "arr", desde 0 hasta
+//la mitad de "arr" al arreglo "primeraMitad"
+        System.arraycopy(arr, 0, primeraMitad, 0, tam1);
+
+//Se copian los elementos del arreglo "arr", desde la mitad hasta
+//el tamaño de arr menos la mitad del tamaño de arr
+//al arreglo "segundaMitad"
+        System.arraycopy(arr, tam1, segundaMitad, 0, tam2);
+        
+        //arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+
+        sort(primeraMitad);
+        sort(segundaMitad);
+
+        OrdenamientoExterno.merge(primeraMitad, segundaMitad, arr);
+    }
 }

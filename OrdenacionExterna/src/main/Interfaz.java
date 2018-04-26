@@ -323,11 +323,13 @@ public class Interfaz extends javax.swing.JFrame {
                     D[i] = Integer.parseInt(SS[i]);
                 }
 
-                int[] E= OrdenamientoExterno.mDirecta(D);
+                //int[] E= OrdenamientoExterno.mDirecta(D);
+                
+                OrdenamientoExterno.sort(D);
 
                 cad = "";
-                for (int i = 0; i < E.length; i++) {
-                    cad = cad + E[i] + ",";
+                for (int i = 0; i < D.length; i++) {
+                    cad += D[i] + ",";
                 }
                 txtD.setText(cad);
                 break;
