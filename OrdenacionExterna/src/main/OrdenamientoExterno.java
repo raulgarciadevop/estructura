@@ -36,15 +36,28 @@ public class OrdenamientoExterno {
          return C;
      }
      
+     public static void verArray(int A[], int n){
+         String cad="";
+         for(int i=0;i<n;i++)
+             cad+=A[i];
+         javax.swing.JOptionPane.showMessageDialog(null, cad);
+     }
+     
      public static int[] mezclaDirecta(int[] F){
-         int n=F.length;
+         int n=F.length,tam=0,f=0;
          int t=n%2==0?n/2:(n+1)/2;//Si residuo de n/2 es mayor a 0, n=n+1/2
          int[] F1=new int[t];
          int[] F2=new int[t];
-         int tam=0;
+         int f1=0,f2=0;
          
-         for(int i=0;(tam=(int)Math.pow(2, i))<=t;i++){
-             int f=0,f1=0,f2=0;
+         do{
+             for(int c=0;c<tam && f<n;c++) F1[f1++]=F[f++];
+             
+         }while(f<n);
+         f=0;f1=0;f2=0;
+         
+         for(int i=0;(tam=(int)Math.pow(2, i))<=n;i++){
+             
              /*Progreso en clase:*/
              while(f1<F1.length && f2<F2.length){
                  if(F1[f1]<F2[f2])
@@ -123,7 +136,7 @@ public class OrdenamientoExterno {
         int srcIndex2 = 0;
         int destIndex = 0;
 
-// merge hasta que uno de los arrays fuentes este vacio
+        
         while (srcIndex1 < fuente1.length && srcIndex2 < fuente2.length) {
             if (fuente1[srcIndex1] < fuente2[srcIndex2]) {//Si F1 es menor a F2, se pasa F1 actual a F original
                 dest[destIndex] = fuente1[srcIndex1];
@@ -135,17 +148,13 @@ public class OrdenamientoExterno {
             destIndex++;
         }
 
-        if (srcIndex1 < fuente1.length) {//Si queda sobrante en F1, se pasa a F original
-            System.arraycopy(fuente1, srcIndex1, dest, destIndex,
-                    fuente1.length - srcIndex1);
-        } else {//Si queda sobrante en F2, se pasa a F original
-            System.arraycopy(fuente2, srcIndex2, dest, destIndex,
-                    fuente2.length - srcIndex2);
-        }
-    } // fin de merge();
+        if (srcIndex1 < fuente1.length) //Si queda sobrante en F1, se pasa a F original
+            System.arraycopy(fuente1,srcIndex1,dest,destIndex,fuente1.length - srcIndex1);
+         else //Si queda sobrante en F2, se pasa a F original
+            System.arraycopy(fuente2,srcIndex2,dest,destIndex,fuente2.length - srcIndex2);
+        
+    }
 
-// Ordena usando mezcla natural
-// Parametros: el array a ordenar
     public static void sort(int arr[]) {
         if (arr.length <= 1) {
             return;
@@ -157,15 +166,7 @@ public class OrdenamientoExterno {
         int primeraMitad[] = new int[tam1];
         int segundaMitad[] = new int[tam2];
         
-        
-
-//Se copian los elementos del arreglo "arr", desde 0 hasta
-//la mitad de "arr" al arreglo "primeraMitad"
         System.arraycopy(arr, 0, primeraMitad, 0, tam1);
-
-//Se copian los elementos del arreglo "arr", desde la mitad hasta
-//el tamaño de arr menos la mitad del tamaño de arr
-//al arreglo "segundaMitad"
         System.arraycopy(arr, tam1, segundaMitad, 0, tam2);
         
         //arraycopy(Object src, int srcPos, Object dest, int destPos, int length)

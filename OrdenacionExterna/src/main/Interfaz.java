@@ -47,6 +47,7 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         rbInter = new javax.swing.JRadioButton();
         rbMD = new javax.swing.JRadioButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
         lblD = new javax.swing.JLabel();
         txtD = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -136,6 +137,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        jCheckBox1.setText("jCheckBox1");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -144,7 +147,8 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rbInter)
-                    .addComponent(rbMD))
+                    .addComponent(rbMD)
+                    .addComponent(jCheckBox1))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -154,7 +158,9 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(rbInter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rbMD)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         lblD.setText("D:");
@@ -397,6 +403,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
