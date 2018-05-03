@@ -173,6 +173,14 @@ public class OrdenamientoExterno {
         sort(primeraMitad);
         sort(segundaMitad);
 
+        System.out.print("PREORD F1"+Arrays.toString(primeraMitad)+"F2"+Arrays.toString(segundaMitad)+"Src"+Arrays.toString(arr));
         OrdenamientoExterno.merge(primeraMitad, segundaMitad, arr);
+        System.out.print("POSTORD F1"+Arrays.toString(primeraMitad)+"F2"+Arrays.toString(segundaMitad)+"Src"+Arrays.toString(arr));
+    }
+    
+    public static void main(String[] args) {
+        int A[]={6,3,1,2,10,8,4,9,5,7};
+        sort(A);
+        System.out.print("RES: "+Arrays.toString(A));
     }
 }
