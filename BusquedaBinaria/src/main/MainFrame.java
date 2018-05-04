@@ -17,6 +17,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         ord=new Ordenamiento();
+        BB=new BusquedaBinaria();
     }
 
     /**
@@ -149,15 +150,22 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // buscar
-        int pos=bSec(A,Integer.parseInt(txtB.getText()));
+        
+        //Secuencial int pos=bSec(A,Integer.parseInt(txtB.getText()));
+        
+        //Binaria
+        int pos=BB.bBinRecur(A, Integer.parseInt(txtB.getText()));
+        
         if(pos!=-1)
             javax.swing.JOptionPane.showMessageDialog(null, "Encontrado en la posicion '"+pos+"', con valor de "+A[pos]);
         else
             javax.swing.JOptionPane.showMessageDialog(null, "Elemento no encontrado.");
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Ordenar
+        //ord.quicksort(A, 0, A.length-1);
         ord.shell(A, true);
         for(int i=0;i<A.length;i++){
             txtDatos.setText(txtDatos.getText()+A[i]+"\n");
@@ -200,6 +208,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
+    private BusquedaBinaria BB;
     private Ordenamiento ord;
     private int[] A;
     // Variables declaration - do not modify//GEN-BEGIN:variables

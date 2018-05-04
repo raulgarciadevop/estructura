@@ -10,12 +10,20 @@ package main;
  * @author SB-A1
  */
 public class BusquedaBinaria {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    
+    public BusquedaBinaria(){
+        
     }
     
+    public int bBinRecur(int[] arreglo, int valor){
+        return binariaRecur(arreglo,valor,0,arreglo.length-1);
+    }
+    
+    public int binariaRecur(int[] arreglo, int valor, int inf,int sup){
+        int mitad=(inf+sup)/2;
+        if((inf>=sup)&&(arreglo[inf]!=valor))return -1;
+        else if(arreglo[mitad]==valor)return mitad;
+        else if(valor>arreglo[mitad])return binariaRecur(arreglo,valor,mitad+1,sup);
+        return binariaRecur(arreglo,valor,inf,mitad-1);
+    }
 }
