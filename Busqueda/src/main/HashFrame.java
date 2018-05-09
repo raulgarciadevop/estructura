@@ -6,8 +6,11 @@
 package main;
 
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import objetos.Alumno;
+import busqueda.Busqueda;
 
 /**
  *
@@ -20,8 +23,36 @@ public class HashFrame extends javax.swing.JFrame {
      */
     public HashFrame() {
         initComponents();
-        dtm=(DefaultTableModel)tblInventario.getModel();
+        dtm=(DefaultTableModel)tblAlumnos.getModel();
+        dtmB=(DefaultTableModel)tblB.getModel();
+        dtmA=(DefaultTableModel)tblAlumnos2.getModel();
         dtm.setRowCount(10);
+        dtmA.setRowCount(10);
+        pBusqueda.setVisible(false);
+        btnBuscar.setEnabled(false);
+        
+        dtmB.addTableModelListener(new TableModelListener(){
+            @Override
+            public void tableChanged(TableModelEvent tme) {
+                switch(tme.getType()){
+                    case TableModelEvent.UPDATE:
+                        try{
+                        //buscar(); DESACTIVADO PORQUE AFECTA AL FUNCIONAMIENTO DE LAS OTRAS OPCIONES (ELIMINAR)
+                        }catch(Exception e){
+                            
+                            dtm.setRowCount(10);
+                            actualizar();
+                            showMessageDialog(null, "No encontrado.");
+                        }
+                        
+                        break;
+                }
+            }
+            
+        
+        });
+        
+        jcbB.setSelected(false);
     }
 
     /**
@@ -37,7 +68,7 @@ public class HashFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblInventario = new javax.swing.JTable();
+        tblAlumnos = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         btnInsertar = new javax.swing.JButton();
         jToolBar2 = new javax.swing.JToolBar();
@@ -59,16 +90,16 @@ public class HashFrame extends javax.swing.JFrame {
         txtNombre = new javax.swing.JTextField();
         txtEdad = new javax.swing.JTextField();
         txtCalificacion = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblAlumnos2 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jcbB = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,7 +128,7 @@ public class HashFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
-        tblInventario.setModel(new javax.swing.table.DefaultTableModel(
+        tblAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -122,7 +153,7 @@ public class HashFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblInventario);
+        jScrollPane1.setViewportView(tblAlumnos);
 
         jToolBar1.setRollover(true);
 
@@ -143,6 +174,11 @@ public class HashFrame extends javax.swing.JFrame {
         btnEliminar.setFocusable(false);
         btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jToolBar2.add(btnEliminar);
 
         jToolBar3.setRollover(true);
@@ -151,6 +187,11 @@ public class HashFrame extends javax.swing.JFrame {
         btnActualizar.setFocusable(false);
         btnActualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnActualizar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
         jToolBar3.add(btnActualizar);
 
         jToolBar4.setRollover(true);
@@ -159,6 +200,11 @@ public class HashFrame extends javax.swing.JFrame {
         btnBuscar.setFocusable(false);
         btnBuscar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnBuscar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
         jToolBar4.add(btnBuscar);
 
         jLabel3.setText("NC:");
@@ -170,7 +216,7 @@ public class HashFrame extends javax.swing.JFrame {
         jLabel6.setText("Calificacion:");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("Inventario:");
+        jLabel7.setText("Alumnos");
 
         pBusqueda.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -218,6 +264,36 @@ public class HashFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tblAlumnos2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "NC", "Nombre", "Edad", "Calificacion"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tblAlumnos2);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Alumnos");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -225,6 +301,9 @@ public class HashFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(pBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
@@ -247,10 +326,9 @@ public class HashFrame extends javax.swing.JFrame {
                                     .addComponent(txtNC, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                                     .addComponent(txtNombre)
                                     .addComponent(txtCalificacion)
-                                    .addComponent(txtEdad))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
-                    .addComponent(pBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(txtEdad)))
+                            .addComponent(jLabel8))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -284,7 +362,11 @@ public class HashFrame extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(102, 102, 102));
@@ -314,27 +396,6 @@ public class HashFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton1.setText("Meter");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Ver");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Buscar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         jMenu1.setText("Archivo");
 
         jMenuItem2.setText("Salir");
@@ -349,13 +410,14 @@ public class HashFrame extends javax.swing.JFrame {
 
         jMenu2.setText("Ver");
 
-        jMenuItem1.setText("Herramienta de busqueda");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jcbB.setSelected(true);
+        jcbB.setText("Busqueda");
+        jcbB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jcbBActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu2.add(jcbB);
 
         jMenuBar1.add(jMenu2);
 
@@ -366,105 +428,50 @@ public class HashFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addContainerGap(300, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap()))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(577, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(24, 24, 24))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Mostrar
-        mostrar(A);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // Buscar
-        String nc="15400786";
-        
-        try{
-        //if(A[posHash(nc)].getNc().equals(nc))
-            showMessageDialog(this,A[posHash(nc)].toString());
-        
-            
-        }catch(NullPointerException e){
-            showMessageDialog(this,"No se encuentra.");
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // SalirMenu
         System.exit(0);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // Ver busqueda
-        pBusqueda.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-        // Insertar
-        
-        /*
-        dtm.setRowCount(dtm.getRowCount()+1);
-        dtm.setValueAt(txtNC.getText(), dtm.getRowCount()-1, 0);
-        dtm.setValueAt(txtNombre.getText(), dtm.getRowCount()-1, 1);
-        dtm.setValueAt(Integer.parseInt(txtEdad.getText()), dtm.getRowCount()-1, 2);
-        dtm.setValueAt(Integer.parseInt(txtCalificacion.getText()), dtm.getRowCount()-1, 3);
-
-        Alumno[] L=new Alumno[dtm.getRowCount()-1];
-        
-        for(int i=0;i<dtm.getRowCount();i++)
-        L[i]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
-
-        dtm.setRowCount(0);
-
-        for(int i=0;i<=L.length;i++){
-            dtm.setValueAt(L[i].getNc(), i, 0);
-            dtm.setValueAt(L[i].getNombre(), i, 1);
-            dtm.setValueAt(L[i].getEdad(), i, 2);
-            dtm.setValueAt(L[i].getCalif(), i, 3);
-        }
-        */
         
         // Ingresar
-        ingresar();
+        try{
+            if(!txtNombre.getText().equals(""))
+                ingresar();
+            else{
+                showMessageDialog(null,"Por favor ingrese el nombre del alumno.");
+                txtNombre.requestFocus();
+            }
+                
+            
+        }catch(NumberFormatException e){
+            showMessageDialog(null,"Por favor complete todos los registros con el tipo adecuado de dato.");
+        }
+        
+        limpiarTXT();
 
     }//GEN-LAST:event_btnInsertarActionPerformed
 
@@ -472,6 +479,60 @@ public class HashFrame extends javax.swing.JFrame {
         // Salir
         System.exit(0);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // Eliminar
+        
+        dtm.removeRow(5);
+        dtm.setRowCount(dtm.getRowCount()+1);
+        
+        
+        try{
+            if(!dtmB.getValueAt(0, 0).toString().equals(""))
+                eliminar(dtmB.getValueAt(0, 0).toString());
+            else{
+                showMessageDialog(null,"Por favor ingrese el NC");
+                txtNombre.requestFocus();
+            }
+                
+            
+        }catch(NumberFormatException e){
+            showMessageDialog(null,"Por favor complete todos los registros con el tipo adecuado de dato.");
+        }
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void jcbBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbBActionPerformed
+        // Ver busqueda
+        pBusqueda.setVisible(jcbB.isSelected());
+        btnBuscar.setEnabled(jcbB.isSelected());
+    }//GEN-LAST:event_jcbBActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // Buscar
+        try{
+            int hc=0;
+            if(!dtmB.getValueAt(0, 0).toString().equals(""))
+                hc=Busqueda.hash(dtmB.getValueAt(0, 0).toString());
+            else{
+                showMessageDialog(null,"Por favor ingrese el NC");
+                txtNombre.requestFocus();
+            }
+            dtm.setRowCount(0);
+            dtm.setRowCount(dtm.getRowCount()+1);
+            dtm.setValueAt(A[hc], 0, 0);
+            
+            limpiarBusq();
+        }catch(NumberFormatException e){
+            showMessageDialog(null,"Por favor complete todos los registros con el tipo adecuado de dato.");
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // Actualizar
+        dtm.setRowCount(10);
+        actualizar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -508,65 +569,168 @@ public class HashFrame extends javax.swing.JFrame {
         });
     }
     
-    private void ingresar(){
-        //Alumno a=new Alumno("15401083","Greg",19,100);
-        //int p=posHash(a.getNc());
-        //A[p]=a;
-        
-        //A[posHash("15401083")]=new Alumno("15401083","Greg",19,100);
-        //A[posHash("15400785)]=new Alumno("15400785","Alo",18,100);
-        A[posHash(txtNC.getText())]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
-        
-        mostrar(txtNC.getText());
+    private void limpiarTXT(){
+        txtNC.setText("");
+        txtNombre.setText("");
+        txtEdad.setText("");
+        txtCalificacion.setText("");
     }
+    
+    private void limpiarBusq(){
+        dtmB.setRowCount(0);
+        dtmB.setRowCount(1);
+    }
+    
+    private void ingresar(){
+        int hc=Busqueda.hash(txtNC.getText());
+        
+        if(A[hc]!=null){
+            if(Integer.parseInt(A[hc].getNc())>Integer.parseInt(txtNC.getText()))
+                A[hc+1]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
+        }
+        
+        if(A[hc]!=null){
+            B[hc]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
+            mostrarA(hc);
+        }else
+            A[hc]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
+        
+        mostrar(hc);
+    }
+    
+    private void mostrar(int nc){
+        dtm.setValueAt(A[nc].getNc(), nc, 0);
+        dtm.setValueAt(A[nc].getNombre(), nc, 1);
+        dtm.setValueAt(A[nc].getEdad(), nc, 2);
+        dtm.setValueAt(A[nc].getCalif(), nc, 3);
+    }
+    
+    private void mostrarA(int nc){
+        dtmA.setValueAt(B[nc].getNc(), nc, 0);
+        dtmA.setValueAt(B[nc].getNombre(), nc, 1);
+        dtmA.setValueAt(B[nc].getEdad(), nc, 2);
+        dtmA.setValueAt(B[nc].getCalif(), nc, 3);
+    }
+    
+    private void eliminar(String nc){
+        int hc=Busqueda.hash(nc);
+        if(A[hc]==null){
+            if(B[hc]!=null){
+                B[hc]=null;
+                dtmA.removeRow(hc);
+                dtmA.setRowCount(dtm.getRowCount()+1);
+            }
+        }else{
+            A[hc]=null;
+            dtm.removeRow(hc);
+            dtm.setRowCount(dtm.getRowCount()+1);
+        }
+        
+        
+        
+    }
+    
+    private void actualizar(){
+        int rc=dtm.getRowCount();
+        dtm.setRowCount(0);
+        dtm.setRowCount(rc);
+        
+        int rcc=dtmA.getRowCount();
+        dtmA.setRowCount(0);
+        dtmA.setRowCount(rcc);
+        
+        for(int i=0;i<A.length;i++){
+            if(A[i]!=null){
+                dtm.setValueAt(A[i].getNc(), i, 0);
+                dtm.setValueAt(A[i].getNombre(), i, 1);
+                dtm.setValueAt(A[i].getEdad(), i, 2);
+                dtm.setValueAt(A[i].getCalif(), i, 3);
+            }
+            else{
+                dtm.setValueAt("", i, 0);
+                dtm.setValueAt("", i, 1);
+                dtm.setValueAt("", i, 2);
+                dtm.setValueAt("", i, 3);
+            }
+            
+            if(B[i]!=null){
+                dtmA.setValueAt(B[i].getNc(), i, 0);
+                dtmA.setValueAt(B[i].getNombre(), i, 1);
+                dtmA.setValueAt(B[i].getEdad(), i, 2);
+                dtmA.setValueAt(B[i].getCalif(), i, 3);
+            }
+            else{
+                dtmA.setValueAt("", i, 0);
+                dtmA.setValueAt("", i, 1);
+                dtmA.setValueAt("", i, 2);
+                dtmA.setValueAt("", i, 3);
+            }
+                
+            
+        }
+    }
+    
+    private void buscar(){
+        int hc = 0;
+        if (!dtmB.getValueAt(0, 0).toString().equals(""))
+            hc = Busqueda.hash(dtmB.getValueAt(0, 0).toString());
+        else {
+            showMessageDialog(null, "Por favor ingrese el NC");
+            txtNombre.requestFocus();
+        }
+        
+        
+        if(A[hc]==null){
+            if(B[hc]!=null){
+                dtmA.setRowCount(0);
+                dtmA.setRowCount(dtm.getRowCount() + 1);
+            
+                dtmA.setValueAt(B[hc].getNc(), 0, 0);
+                dtmA.setValueAt(B[hc].getNombre(), 0, 1);
+                dtmA.setValueAt(B[hc].getEdad(), 0, 2);
+                dtmA.setValueAt(B[hc].getCalif(), 0, 3);
+            }
+        }else{
+            dtm.setRowCount(0);
+            dtm.setRowCount(dtm.getRowCount() + 1);
+            
+            dtm.setValueAt(A[hc].getNc(), 0, 0);
+            dtm.setValueAt(A[hc].getNombre(), 0, 1);
+            dtm.setValueAt(A[hc].getEdad(), 0, 2);
+            dtm.setValueAt(A[hc].getCalif(), 0, 3);
+        }
+        
+        
+        limpiarBusq();
+    }
+    
+    /*
+    
     
     private int posHash(String nc){
         return Integer.parseInt(nc)%10;
     }
     
+    
     private void mostrar(String nc){
-        
         dtm.setValueAt(A[posHash(nc)].getNc(), posHash(nc), 0);
         dtm.setValueAt(A[posHash(nc)].getNombre(), posHash(nc), 1);
         dtm.setValueAt(A[posHash(nc)].getEdad(), posHash(nc), 2);
         dtm.setValueAt(A[posHash(nc)].getCalif(), posHash(nc), 3);
     }
+    */
     
-    private void mostrar(Alumno[] A){
-        
-        
-        
-        
-        for(int i=0;i<A.length;i++){
-            
-            dtm.setValueAt(A[i].getNc(), i, 0);
-            dtm.setValueAt(A[i].getNombre(), i, 1);
-            dtm.setValueAt(A[i].getEdad(), i, 2);
-            dtm.setValueAt(A[i].getCalif(), i, 3);
-            
-        }
-        /*
-        String cad="";
-        
-        for(int i=0;i<10;i++){
-            cad+="["+i+"]="+A[i]+"\n";
-            
-        }
-        return cad;
-        */
-    }
+    
+    
     
 
-    private Alumno[] A=new Alumno[10];
-    private DefaultTableModel dtm;
+    private Alumno[] A=new Alumno[10],B=new Alumno[10];
+    private DefaultTableModel dtm,dtmA,dtmB;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnInsertar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -575,23 +739,26 @@ public class HashFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
+    private javax.swing.JCheckBoxMenuItem jcbB;
     private javax.swing.JPanel pBusqueda;
+    private javax.swing.JTable tblAlumnos;
+    private javax.swing.JTable tblAlumnos2;
     private javax.swing.JTable tblB;
-    private javax.swing.JTable tblInventario;
     private javax.swing.JTextField txtCalificacion;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtNC;
