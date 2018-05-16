@@ -5,18 +5,19 @@
  */
 package main;
 
-import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import objetos.Alumno;
 import busqueda.Busqueda;
+import static javax.swing.JOptionPane.*;
 
 /**
  *
  * @author SG-A1
  */
 public class HashFrame extends javax.swing.JFrame {
+    private int filas;
 
     /**
      * Creates new form HashFrame
@@ -26,8 +27,10 @@ public class HashFrame extends javax.swing.JFrame {
         dtm=(DefaultTableModel)tblAlumnos.getModel();
         dtmB=(DefaultTableModel)tblB.getModel();
         dtmA=(DefaultTableModel)tblAlumnos2.getModel();
-        dtm.setRowCount(10);
-        dtmA.setRowCount(10);
+        
+        filas=Integer.parseInt(showInputDialog("Ingrese el tamaño de la tabla: "));
+        dtm.setRowCount(filas);
+        dtmA.setRowCount(filas);
         pBusqueda.setVisible(false);
         btnBuscar.setEnabled(false);
         
@@ -40,7 +43,7 @@ public class HashFrame extends javax.swing.JFrame {
                         //buscar(); DESACTIVADO PORQUE AFECTA AL FUNCIONAMIENTO DE LAS OTRAS OPCIONES (ELIMINAR)
                         }catch(Exception e){
                             
-                            dtm.setRowCount(10);
+                            dtm.setRowCount(filas);
                             actualizar();
                             showMessageDialog(null, "No encontrado.");
                         }
@@ -483,8 +486,8 @@ public class HashFrame extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // Eliminar
         
-        dtm.removeRow(5);
-        dtm.setRowCount(dtm.getRowCount()+1);
+        //dtm.removeRow(5);
+        //dtm.setRowCount(dtm.getRowCount()+1);
         
         
         try{
@@ -530,7 +533,7 @@ public class HashFrame extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // Actualizar
-        dtm.setRowCount(10);
+        dtm.setRowCount(filas);
         actualizar();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
@@ -586,14 +589,29 @@ public class HashFrame extends javax.swing.JFrame {
         
         if(A[hc]!=null){
             if(Integer.parseInt(A[hc].getNc())>Integer.parseInt(txtNC.getText()))
+                A[hc-1]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
+            else if(Integer.parseInt(A[hc].getNc())<Integer.parseInt(txtNC.getText()))
                 A[hc+1]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
-        }
-        
-        if(A[hc]!=null){
-            B[hc]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
+            
+            else if(Integer.parseInt(A[hc].getNc())==Integer.parseInt(txtNC.getText())){
+                B[hc]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
+                
+            }
+            
             mostrarA(hc);
+                
+            
+            
+            else{
+                
         }else
             A[hc]=new Alumno(txtNC.getText(),txtNombre.getText(),Integer.parseInt(txtEdad.getText()),Integer.parseInt(txtCalificacion.getText()));
+        
+        
+        
+        
+        }
+        
         
         mostrar(hc);
     }
@@ -724,7 +742,7 @@ public class HashFrame extends javax.swing.JFrame {
     
     
 
-    private Alumno[] A=new Alumno[10],B=new Alumno[10];
+    private Alumno[] A=new Alumno[11],B=new Alumno[11];
     private DefaultTableModel dtm,dtmA,dtmB;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
